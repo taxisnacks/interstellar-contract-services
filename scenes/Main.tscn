@@ -22,4 +22,4 @@ script = ExtResource("2_0bbpv")
 
 [node name="SceneContainer" type="Node" parent="."]
 
-[node name="Map" parent="SceneContainer" groups=["map"] instance=ExtResource("2_rvslj")]
+[node name="Map" parent="SceneContainer" instance=ExtResource("2_rvslj")]

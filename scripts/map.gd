@@ -186,10 +186,6 @@ func _unhandled_input(event):
 		if preview_path.is_empty():
 			return
 
-		await unit.move_along_path(preview_path)
-		unit.spend_movement(1)
-		clear_action_state()
-
 		if unit == null:
 			return
 
