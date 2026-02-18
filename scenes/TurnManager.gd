@@ -25,7 +25,7 @@ func start_player_turn():
 func end_player_turn():
 	print (" PLAYER TURN END. ")
 	
-	var unit_manager = get_tree().get_first_node_in_group("unit_manger")
+	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
 	if unit_manager:
 		unit_manager.active_unit = null
 	
