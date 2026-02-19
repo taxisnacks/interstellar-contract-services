@@ -12,6 +12,7 @@ enum faction { PLAYER, ENEMY }
 @export var unit_faction: faction = faction.PLAYER
 @export var tile_pos: Vector2i
 @export var unit_sprite: Texture2D
+@export var weapon: WeaponResource
 
 var current_hp := max_hp
 var action_points := max_action_points
@@ -76,9 +77,13 @@ func execute_attack(target: Unit):
 	print(self.name, " attacks ", target.name)
 	
 	self.action_points -= 1
-	target.take_damage(3)
+	target.take_damage(roll_damage())
 	unit_manager.deselect_active_unit()
-
+	
+func roll_damage():
+	var dmg = randi_range(weapon.damage_min, weapon.damage_max)
+	return dmg
+	
 func take_damage(amount: int):
 	current_hp -= amount
 	if current_hp <= 0:
