@@ -33,10 +33,10 @@ func _ready():
 
 func start_turn():
 	action_points = max_action_points
-	print(name, "start turn")
+	print(name, " starts turn")
 
 func end_turn():
-	print(name, "end turn")
+	print(name, " ends turn")
 
 func set_selected(value: bool):
 	is_selected = value
