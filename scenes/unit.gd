@@ -13,6 +13,7 @@ enum faction { PLAYER, ENEMY }
 @export var tile_pos: Vector2i
 @export var unit_sprite: Texture2D
 @export var weapon: WeaponResource
+@export var unarmed_range := 1
 
 var current_hp := max_hp
 var action_points := max_action_points
