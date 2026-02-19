@@ -178,7 +178,7 @@ func _unhandled_input(event):
 
 		# ATTACK
 		if attack_target:
-			unit.execute_attack(unit, attack_target)
+			unit.execute_attack(attack_target)
 			clear_action_state()
 			return
 

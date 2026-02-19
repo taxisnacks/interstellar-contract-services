@@ -70,12 +70,12 @@ func spend_movement(cost: int) -> void:
 	action_points = max(action_points, 0)
 	print("Movement taken, new AP:", action_points)
 
-func execute_attack(attacker: Unit, target: Unit):
+func execute_attack(target: Unit):
 	# var hit_chance = (just for reference; need to research typical implementations of this)
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
-	print(attacker.name, " attacks ", target.name)
+	print(self.name, " attacks ", target.name)
 	
-	attacker.action_points -= 1
+	self.action_points -= 1
 	target.take_damage(3)
 	unit_manager.deselect_active_unit()
 
