@@ -155,7 +155,7 @@ func _process(_delta):
 	# ATTACK PREVIEW
 	if hover_target != null \
 	and hover_target.unit_faction != unit.unit_faction \
-	and is_target_in_attack_range(unit, hover_target):
+	and unit.tile_pos.distance_to(hover_target.tile_pos) <= unit.get_attack_range():
 		print("Target found successfully")
 		attack_target = hover_target
 		

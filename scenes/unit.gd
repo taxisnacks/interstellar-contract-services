@@ -84,7 +84,6 @@ func execute_attack(target: Unit):
 func get_attack_range():
 	return weapon.range
 
-
 func roll_damage():
 	return randi_range(weapon.damage_min, weapon.damage_max)
 	
