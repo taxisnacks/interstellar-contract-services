@@ -14,6 +14,7 @@ enum faction { PLAYER, ENEMY }
 @export var unit_sprite: Texture2D
 @export var weapon: WeaponResource
 @export var unarmed_range := 1
+@export var unarmed_damage := 1
 
 var current_hp := max_hp
 var action_points := max_action_points
@@ -82,9 +83,13 @@ func execute_attack(target: Unit):
 	unit_manager.deselect_active_unit()
 	
 func get_attack_range():
+	if weapon == null:
+		return unarmed_range
 	return weapon.range
 
 func roll_damage():
+	if weapon == null:
+		return unarmed_damage
 	return randi_range(weapon.damage_min, weapon.damage_max)
 	
 func take_damage(amount: int):

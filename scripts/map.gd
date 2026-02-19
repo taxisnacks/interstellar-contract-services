@@ -224,6 +224,3 @@ func clear_action_state():
 	reachable_tiles.clear()
 	attack_target = null
 	queue_redraw()
-
-func is_target_in_attack_range(attacker: Unit, target: Unit) -> bool:
-	return attacker.tile_pos.distance_to(target.tile_pos) <= 5
