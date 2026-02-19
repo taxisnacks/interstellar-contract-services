@@ -81,9 +81,12 @@ func execute_attack(target: Unit):
 	target.take_damage(roll_damage())
 	unit_manager.deselect_active_unit()
 	
+func get_attack_range():
+	return weapon.range
+
+
 func roll_damage():
-	var dmg = randi_range(weapon.damage_min, weapon.damage_max)
-	return dmg
+	return randi_range(weapon.damage_min, weapon.damage_max)
 	
 func take_damage(amount: int):
 	current_hp -= amount

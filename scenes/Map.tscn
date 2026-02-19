@@ -1,12 +1,12 @@
-[gd_scene load_steps=15 format=4 uid="uid://upc8ed66t3qt"]
+[gd_scene load_steps=11 format=4 uid="uid://upc8ed66t3qt"]
 
 [ext_resource type="Script" uid="uid://bkq67ka6v5gql" path="res://scripts/map.gd" id="1_xkm8s"]
 [ext_resource type="Texture2D" uid="uid://di0x2ldluyl1" path="res://data/sprites/floor-debug.png" id="2_tm3qm"]
 [ext_resource type="Texture2D" uid="uid://bmsvcyb40fy3l" path="res://data/sprites/wall-debug.png" id="3_yyirk"]
 [ext_resource type="PackedScene" uid="uid://b8ucbfko5ilq2" path="res://scenes/Unit.tscn" id="4_tm3qm"]
 [ext_resource type="Texture2D" uid="uid://byo35car1jkhm" path="res://data/sprites/debug-unit-friendly.png" id="5_41ykk"]
-[ext_resource type="Script" uid="uid://vnlnvwffk6u7" path="res://scripts/WeaponResource.gd" id="6_7ctrk"]
 [ext_resource type="Texture2D" uid="uid://c2waex3cb7gku" path="res://data/sprites/debug-unit-enemy.png" id="6_inly4"]
+[ext_resource type="Resource" uid="uid://dmg5g45oh2s58" path="res://data/weapons/tier1_rifle.tres" id="7_7ctrk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_41ykk"]
 texture = ExtResource("2_tm3qm")
@@ -26,22 +26,6 @@ custom_data_layer_1/type = 2
 sources/0 = SubResource("TileSetAtlasSource_41ykk")
 sources/1 = SubResource("TileSetAtlasSource_inly4")
 
-[sub_resource type="Resource" id="Resource_ii6k2"]
-script = ExtResource("6_7ctrk")
-metadata/_custom_type_script = "uid://vnlnvwffk6u7"
-
-[sub_resource type="Resource" id="Resource_46d0c"]
-script = ExtResource("6_7ctrk")
-metadata/_custom_type_script = "uid://vnlnvwffk6u7"
-
-[sub_resource type="Resource" id="Resource_d46yu"]
-script = ExtResource("6_7ctrk")
-metadata/_custom_type_script = "uid://vnlnvwffk6u7"
-
-[sub_resource type="Resource" id="Resource_hit12"]
-script = ExtResource("6_7ctrk")
-metadata/_custom_type_script = "uid://vnlnvwffk6u7"
-
 [node name="Map" type="Node2D" groups=["map"]]
 script = ExtResource("1_xkm8s")
 
@@ -55,7 +39,7 @@ tile_set = SubResource("TileSet_7ctrk")
 z_index = 10
 position = Vector2(88, 136)
 unit_sprite = ExtResource("5_41ykk")
-weapon = SubResource("Resource_ii6k2")
+weapon = ExtResource("7_7ctrk")
 
 [node name="Unit2" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
@@ -66,15 +50,15 @@ unit_sprite = ExtResource("5_41ykk")
 z_index = 10
 position = Vector2(168, 168)
 unit_sprite = ExtResource("5_41ykk")
-weapon = SubResource("Resource_46d0c")
+weapon = ExtResource("7_7ctrk")
 
 [node name="Unit4" parent="." instance=ExtResource("4_tm3qm")]
 position = Vector2(120, 120)
 unit_sprite = ExtResource("5_41ykk")
-weapon = SubResource("Resource_d46yu")
+weapon = ExtResource("7_7ctrk")
 
 [node name="Unit5" parent="." instance=ExtResource("4_tm3qm")]
 position = Vector2(120, 168)
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
-weapon = SubResource("Resource_hit12")
+weapon = ExtResource("7_7ctrk")
