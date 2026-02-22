@@ -31,7 +31,26 @@ func end_player_turn():
 	
 	emit_signal("turn_ended", current_phase)
 	enemy_turn()
-
+func choose_nearest_target(enemy: Unit):
+	var nearest_target = null
+	var current_furthest = 0
+	if player_units.is_empty():
+		return nearest_target
+	for unit in player_units:
+		var current_distance = unit.get_distance(enemy)
+		if current_distance > current_furthest:
+			current_furthest = current_distance
+			nearest_target = unit
+	return nearest_target 
+func can_attack(enemy: Unit, target: Unit):
+	if enemy.get_distance(target) < enemy.get_attack_range():
+		return true
+	return false
+func take_enemy_action(enemy: Unit, map, unit_manager):
+	var target = choose_nearest_target(enemy)
+	if can_attack(enemy, target):
+		enemy.execute_attack(target)
+		
 func enemy_turn(): # placeholder
 	current_phase = phase.ENEMY
 	print(" ENEMY TURN START. ")
