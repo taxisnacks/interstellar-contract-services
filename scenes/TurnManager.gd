@@ -7,6 +7,7 @@ signal turn_ended(phase)
 
 var current_phase: int = phase.PLAYER
 var player_units: Array = []
+var enemy_units: Array = []
 
 func _ready():
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager") # grab player units from UnitManager
@@ -47,10 +48,14 @@ func can_attack(enemy: Unit, target: Unit):
 		return true
 	return false
 func take_enemy_action(enemy: Unit, map, unit_manager):
-	var target = choose_nearest_target(enemy)
-	if can_attack(enemy, target):
-		enemy.execute_attack(target)
-		
+	# for each unit in enemy_units:
+		var target = choose_nearest_target(enemy)
+		if can_attack(enemy, target):
+			enemy.execute_attack(target)
+	  # else:
+		   #move towards target via map	as far as possible
+		   #recheck can_attack
+				#else move on to next unit
 func enemy_turn(): # placeholder
 	current_phase = phase.ENEMY
 	print(" ENEMY TURN START. ")
