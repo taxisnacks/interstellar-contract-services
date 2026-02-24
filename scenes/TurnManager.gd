@@ -7,7 +7,6 @@ signal turn_ended(phase)
 
 var current_phase: int = phase.PLAYER
 var player_units: Array = []
-var enemy_units: Array = []
 
 func _ready():
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager") # grab player units from UnitManager
@@ -32,6 +31,7 @@ func end_player_turn():
 	
 	emit_signal("turn_ended", current_phase)
 	enemy_turn()
+	
 func choose_nearest_target(enemy: Unit):
 	var nearest_target = null
 	var current_furthest = 0
@@ -43,6 +43,7 @@ func choose_nearest_target(enemy: Unit):
 			current_furthest = current_distance
 			nearest_target = unit
 	return nearest_target 
+	
 func can_attack(enemy: Unit, target: Unit):
 	if enemy.distance_to(target.tile_pos) < enemy.get_attack_range():
 		return true
@@ -56,6 +57,7 @@ func take_enemy_action(enemy: Unit, map, unit_manager):
 		   #move towards target via map	as far as possible
 		   #recheck can_attack
 				#else move on to next unit
+				
 func enemy_turn(): # placeholder
 	current_phase = phase.ENEMY
 	print(" ENEMY TURN START. ")
