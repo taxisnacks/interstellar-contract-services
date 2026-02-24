@@ -37,13 +37,13 @@ func choose_nearest_target(enemy: Unit):
 	if player_units.is_empty():
 		return nearest_target
 	for unit in player_units:
-		var current_distance = unit.get_distance(enemy)
+		var current_distance = unit.distance_to(enemy.tile_pos)
 		if current_distance > current_furthest:
 			current_furthest = current_distance
 			nearest_target = unit
 	return nearest_target 
 func can_attack(enemy: Unit, target: Unit):
-	if enemy.get_distance(target) < enemy.get_attack_range():
+	if enemy.distance_to(target.tile_pos) < enemy.get_attack_range():
 		return true
 	return false
 func take_enemy_action(enemy: Unit, map, unit_manager):
