@@ -35,17 +35,15 @@ func end_player_turn():
 func choose_nearest_target(enemy: Unit, unit_manager):
 	var nearest_target = null
 	var current_furthest = 0
-	if unit_manager.is_empty():
-		return nearest_target
 	for unit in unit_manager.get_units_in_faction(Unit.faction.PLAYER):
-		var current_distance = unit.distance_to(enemy.tile_pos)
+		var current_distance = unit.tile_pos.distance_to(enemy.tile_pos)
 		if current_distance > current_furthest:
 			current_furthest = current_distance
 			nearest_target = unit
 	return nearest_target 
 
 func can_attack(enemy: Unit, target: Unit):
-	if enemy.distance_to(target.tile_pos) < enemy.get_attack_range():
+	if enemy.tile_pos.distance_to(target.tile_pos) < enemy.get_attack_range():
 		return true
 	return false
 
