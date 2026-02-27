@@ -31,37 +31,40 @@ func end_player_turn():
 	
 	emit_signal("turn_ended", current_phase)
 	enemy_turn()
-	
-func choose_nearest_target(enemy: Unit):
+
+func choose_nearest_target(enemy: Unit, unit_manager):
 	var nearest_target = null
 	var current_furthest = 0
-	if player_units.is_empty():
+	if unit_manager.is_empty():
 		return nearest_target
-	for unit in player_units:
+	for unit in unit_manager.get_units_in_faction(Unit.faction.PLAYER):
 		var current_distance = unit.distance_to(enemy.tile_pos)
 		if current_distance > current_furthest:
 			current_furthest = current_distance
 			nearest_target = unit
 	return nearest_target 
-	
+
 func can_attack(enemy: Unit, target: Unit):
 	if enemy.distance_to(target.tile_pos) < enemy.get_attack_range():
 		return true
 	return false
-func take_enemy_action(enemy: Unit, map, unit_manager):
+
+func take_enemy_action(enemy: Unit, unit_manager):
 	# for each unit in enemy_units:
-		var target = choose_nearest_target(enemy)
+		var target = choose_nearest_target(enemy, unit_manager)
 		if can_attack(enemy, target):
 			enemy.execute_attack(target)
 	  # else:
 		   #move towards target via map	as far as possible
 		   #recheck can_attack
 				#else move on to next unit
-				
+
 func enemy_turn(): # placeholder
 	current_phase = phase.ENEMY
 	print(" ENEMY TURN START. ")
-	
+	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
+	for unit in unit_manager.get_units_in_faction(Unit.faction.ENEMY):
+		take_enemy_action(unit, unit_manager)
 	# enemy AI probably needs to go here later, for now just wait a second for debug
 	await get_tree().create_timer(1.0).timeout
 	

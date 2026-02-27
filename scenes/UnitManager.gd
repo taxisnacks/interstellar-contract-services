@@ -16,9 +16,10 @@ func register_unit(unit):
 func get_units_in_faction(faction: Unit.faction) -> Array[Unit]:
 	var resultArray: Array = [] 
 	for unit in units:
-		if unit.faction == faction:
+		if unit.unit_faction == faction:
 			resultArray.append(unit)
 	return resultArray
+
 func _on_unit_died(unit):
 	units.erase(unit)
 
