@@ -34,11 +34,11 @@ func end_player_turn():
 
 func choose_nearest_target(enemy: Unit, unit_manager):
 	var nearest_target = null
-	var current_furthest = 0
+	var current_nearest = 0
 	for unit in unit_manager.get_units_in_faction(Unit.faction.PLAYER):
 		var current_distance = unit.tile_pos.distance_to(enemy.tile_pos)
-		if current_distance > current_furthest:
-			current_furthest = current_distance
+		if current_distance < current_nearest:
+			current_nearest = current_distance
 			nearest_target = unit
 	return nearest_target 
 
