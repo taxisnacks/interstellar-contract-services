@@ -14,7 +14,7 @@ func register_unit(unit):
 	unit.unit_died.connect(_on_unit_died)
 
 func get_units_in_faction(faction: Unit.faction) -> Array[Unit]:
-	var resultArray: Array[Unit] 
+	var resultArray: Array[Unit] = []
 	for unit in units:
 		if unit.unit_faction == faction:
 			resultArray.append(unit)
