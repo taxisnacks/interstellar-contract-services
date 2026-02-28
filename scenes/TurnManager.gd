@@ -14,6 +14,9 @@ func _ready():
 		player_units = unit_manager.units
 
 func start_player_turn():
+	var unit_manager = get_tree().get_first_node_in_group("unit_manager") # grab player units from UnitManager
+	if unit_manager:
+		player_units = unit_manager.units
 	current_phase = phase.PLAYER
 	print(" PLAYER TURN START. ")
 	
@@ -35,6 +38,8 @@ func end_player_turn():
 func choose_nearest_target(enemy: Unit, unit_manager):
 	var nearest_target = null
 	var current_nearest = 0
+	if unit_manager.get_units_in_faction(Unit.faction.PLAYER) == null:
+		return nearest_target
 	for unit in unit_manager.get_units_in_faction(Unit.faction.PLAYER):
 		var current_distance = unit.tile_pos.distance_to(enemy.tile_pos)
 		if current_distance < current_nearest:
@@ -43,7 +48,10 @@ func choose_nearest_target(enemy: Unit, unit_manager):
 	return nearest_target 
 
 func can_attack(enemy: Unit, target: Unit):
+	if target == null:
+		return false
 	if enemy.tile_pos.distance_to(target.tile_pos) < enemy.get_attack_range():
+		print(enemy, "in range of ", target, ", can attack")
 		return true
 	return false
 
