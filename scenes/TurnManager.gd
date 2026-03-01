@@ -38,9 +38,9 @@ func end_player_turn():
 func choose_nearest_target(enemy: Unit, unit_manager):
 	var nearest_target = null
 	var player_units = unit_manager.get_units_in_faction(Unit.faction.PLAYER)
-	if player_units == null:
+	if player_units[0] == null:
 		return nearest_target
-	var current_nearest = player_units[1].tile_pos.distance_to(enemy.tile_pos)
+	var current_nearest = player_units[0].tile_pos.distance_to(enemy.tile_pos)
 	for unit in player_units:
 		var current_distance = unit.tile_pos.distance_to(enemy.tile_pos)
 		if current_distance < current_nearest:
@@ -58,12 +58,13 @@ func can_attack(enemy: Unit, target: Unit):
 	return false
 
 func take_enemy_action(enemy: Unit, unit_manager):
-	# for each unit in enemy_units:
 		var target = choose_nearest_target(enemy, unit_manager)
 		if can_attack(enemy, target):
 			enemy.execute_attack(target)
-	  # else:
-		   #move towards target via map	as far as possible
+		else:
+			var map = map.get_first_node_in_group("map")
+			var path = map.find_path(enemy.tile_pos, target.tile_pos, enemy)
+			
 		   #recheck can_attack
 				#else move on to next unit
 
