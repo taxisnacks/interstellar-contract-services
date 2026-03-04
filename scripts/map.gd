@@ -5,11 +5,11 @@ extends Node2D
 var debug_start_tile: Vector2i = Vector2i(-1, -1)
 var debug_end_tile: Vector2i = Vector2i(-1, -1)
 var debug_path: Array[Vector2i] = []
-
+var reachable_tiles: Array[Vector2i] = []
 var hover_tile: Vector2i = Vector2i(-1, -1)
 var hover_target = null
 var preview_path: Array[Vector2i] = []
-
+var astar := AStarGrid2D.new()
 var attack_target: Unit = null
 
 func world_to_tile(world_pos: Vector2) -> Vector2i:
@@ -50,8 +50,6 @@ func is_tile_walkable(tile_pos: Vector2i) -> bool:
 		return false
 	return tile_data.get_custom_data("walkable") == true
 
-var astar := AStarGrid2D.new()
-
 func _ready():
 	print("TileMap pos:", tilemap.position)
 	print("Map pos:", position)
@@ -80,7 +78,6 @@ func find_path(from_tile: Vector2i, to_tile: Vector2i, mover: Unit) -> Array[Vec
 	clear_unit_obstacles()
 	return path
 
-
 func get_reachable_tiles(from_tile: Vector2i, max_cost: int, mover: Unit) -> Array[Vector2i]:
 	apply_unit_obstacles(mover)
 
@@ -104,8 +101,6 @@ func get_reachable_tiles(from_tile: Vector2i, max_cost: int, mover: Unit) -> Arr
 	clear_unit_obstacles()
 	return reachable
 
-var reachable_tiles: Array[Vector2i] = []
-
 func _draw():
 	
 	# REACHABLE PREVIEW
@@ -128,7 +123,6 @@ func _draw():
 			18,
 			Color(1.0, 0.2, 0.2, 0.85)
 		)
-
 
 func _on_active_unit_changed(unit):
 	if unit == null:
@@ -167,6 +161,7 @@ func _process(_delta):
 	# DEBUG print("Hover: ", hover_target, "Attack target: ", attack_target) 
 	queue_redraw()
 
+# Input function, should probably move
 func _unhandled_input(event):
 	if event is InputEventMouseButton \
 	and event.button_index == MOUSE_BUTTON_LEFT \

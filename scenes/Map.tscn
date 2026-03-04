@@ -41,10 +41,12 @@ position = Vector2(88, 136)
 unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
-[node name="Unit2" parent="." instance=ExtResource("4_tm3qm")]
+[node name="Enemy3" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
 position = Vector2(152, 280)
-unit_sprite = ExtResource("5_41ykk")
+unit_faction = 1
+unit_sprite = ExtResource("6_inly4")
+weapon = ExtResource("7_7ctrk")
 
 [node name="Unit3" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
@@ -57,8 +59,8 @@ position = Vector2(120, 120)
 unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
-[node name="Unit5" parent="." instance=ExtResource("4_tm3qm")]
-position = Vector2(120, 168)
+[node name="Enemy2" parent="." instance=ExtResource("4_tm3qm")]
+position = Vector2(120, 248)
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
 weapon = ExtResource("7_7ctrk")
