@@ -57,11 +57,11 @@ func enemy_turn():
 
 # ------ AI FUNCTIONS ------ # (move later, doesnt belong in turnmanager)
 func choose_nearest_target(enemy: Unit, unit_manager):
-	var nearest_target = null
 	var player_units = unit_manager.get_units_in_faction(Unit.faction.PLAYER)
-	if player_units[0] == null:
-		return nearest_target
-	var current_nearest = player_units[0].tile_pos.distance_to(enemy.tile_pos)
+	if player_units.is_empty():
+		return null
+	var nearest_target: Unit = player_units[0]
+	var current_nearest = enemy.tile_pos.distance_to(nearest_target.tile_pos)
 	for unit in player_units:
 		var current_distance = unit.tile_pos.distance_to(enemy.tile_pos)
 		if current_distance < current_nearest:
