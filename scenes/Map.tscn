@@ -17,12 +17,15 @@ texture = ExtResource("2_tm3qm")
 texture = ExtResource("3_yyirk")
 0:0/0 = 0
 0:0/0/custom_data_1 = 2
+0:0/0/custom_data_2 = true
 
 [sub_resource type="TileSet" id="TileSet_7ctrk"]
 custom_data_layer_0/name = "walkable"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "cover"
 custom_data_layer_1/type = 2
+custom_data_layer_2/name = "blocks_los"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_41ykk")
 sources/1 = SubResource("TileSetAtlasSource_inly4")
 

@@ -50,6 +50,41 @@ func is_tile_walkable(tile_pos: Vector2i) -> bool:
 		return false
 	return tile_data.get_custom_data("walkable") == true
 
+func is_tile_los_blocking(tile: Vector2i) -> bool:
+	var tile_data = tilemap.get_cell_tile_data(tile)
+	if tile_data == null:
+		return false
+	return tile_data.get_custom_data("blocks_los") == true
+
+func get_los_tiles(from_tile: Vector2i, to_tile: Vector2i) -> Array[Vector2i]:
+	var tiles: Array[Vector2i] = []
+
+	var x0: int = from_tile.x
+	var y0: int = from_tile.y
+	var x1: int = to_tile.x
+	var y1: int = to_tile.y
+
+	var dx: int = absi(x1 - x0)
+	var sx: int = 1 if x0 < x1 else -1
+	var dy: int = -absi(y1 - y0)
+	var sy: int = 1 if y0 < y1 else -1
+	var err: int = dx + dy
+
+	while true:
+		tiles.append(Vector2i(x0, y0))
+		if x0 == x1 and y0 == y1:
+			break
+
+		var e2: int = 2 * err
+		if e2 >= dy:
+			err += dy
+			x0 += sx
+		if e2 <= dx:
+			err += dx
+			y0 += sy
+
+	return tiles
+
 func _ready():
 	print("TileMap pos:", tilemap.position)
 	print("Map pos:", position)
