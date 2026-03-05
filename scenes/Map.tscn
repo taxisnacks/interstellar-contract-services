@@ -46,7 +46,7 @@ weapon = ExtResource("7_7ctrk")
 
 [node name="Enemy3" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
-position = Vector2(152, 280)
+position = Vector2(168, 88)
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
 weapon = ExtResource("7_7ctrk")
@@ -63,7 +63,7 @@ unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
 [node name="Enemy2" parent="." instance=ExtResource("4_tm3qm")]
-position = Vector2(120, 248)
+position = Vector2(89, 88)
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
 weapon = ExtResource("7_7ctrk")

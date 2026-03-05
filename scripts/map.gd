@@ -56,7 +56,7 @@ func is_tile_los_blocking(tile: Vector2i) -> bool:
 		return false
 	return tile_data.get_custom_data("blocks_los") == true
 
-func get_los_tiles(from_tile: Vector2i, to_tile: Vector2i) -> Array[Vector2i]:
+func get_line_tiles(from_tile: Vector2i, to_tile: Vector2i) -> Array[Vector2i]:
 	var tiles: Array[Vector2i] = []
 
 	var x0: int = from_tile.x
@@ -84,6 +84,19 @@ func get_los_tiles(from_tile: Vector2i, to_tile: Vector2i) -> Array[Vector2i]:
 			y0 += sy
 
 	return tiles
+
+func has_line_of_sight(from_tile: Vector2i, to_tile: Vector2i) -> bool:
+	var line := get_line_tiles(from_tile, to_tile)
+	if line.size() <= 1:
+		return true
+
+	# skip shooter tile (index 0), and usually allow target tile itself
+	for i in range(1, line.size() - 1):
+		var t := line[i]
+		if is_tile_los_blocking(t):
+			return false
+
+	return true
 
 func _ready():
 	print("TileMap pos:", tilemap.position)

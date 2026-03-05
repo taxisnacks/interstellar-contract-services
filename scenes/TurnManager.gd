@@ -50,6 +50,8 @@ func enemy_turn():
 
 	var enemies: Array[Unit] = unit_manager.get_units_in_faction(Unit.faction.ENEMY)
 	for enemy in enemies:
+		enemy.start_turn()
+	for enemy in enemies:
 		await take_enemy_action(enemy, unit_manager)
 		await get_tree().create_timer(0.15).timeout
 
@@ -70,10 +72,14 @@ func choose_nearest_target(enemy: Unit, unit_manager):
 	return nearest_target 
 
 func can_attack(enemy: Unit, target: Unit):
-	if target == null:
+	var map = get_tree().get_first_node_in_group("map")
+	if !target:
+		return false
+	if !map.has_line_of_sight(enemy.tile_pos, target.tile_pos):
+		print("no line of sight, cannot attack")
 		return false
 	if enemy.tile_pos.distance_to(target.tile_pos) < enemy.get_attack_range():
-		print(enemy, "in range of ", target, ", can attack")
+		print(enemy, " in range of ", target, ", can attack")
 		return true
 	print ("Can't attack, no targets found in range")
 	return false
