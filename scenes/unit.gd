@@ -92,6 +92,9 @@ func roll_damage():
 		return unarmed_damage
 	return randi_range(weapon.damage_min, weapon.damage_max)
 	
+#func get_hit_chance(unit: Unit, target: Unit):
+#var hit_chance = 100 + weapon.accuracy_bonus - target.defense - cover_penalty - range_penalty
+	
 func take_damage(amount: int):
 	current_hp -= amount
 	if current_hp <= 0:
