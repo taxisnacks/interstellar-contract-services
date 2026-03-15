@@ -93,11 +93,7 @@ func roll_damage():
 
 #func get_hit_chance(unit: Unit, target: Unit):
 	#var hit_chance = 100 + weapon.accuracy_bonus - target.defense - cover_penalty - range_penalty
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> eafdf40 (Removed outdated comment and added LOS to player targeting)
 func take_damage(amount: int):
 	current_hp -= amount
 	if current_hp <= 0:
