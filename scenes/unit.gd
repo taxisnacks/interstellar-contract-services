@@ -44,7 +44,7 @@ func end_turn():
 func set_selected(value: bool):
 	is_selected = value
 	queue_redraw()
-	
+ 
 func _draw():
 	if is_selected:
 		draw_circle(Vector2.ZERO, 20, Color(0.0, 0.609, 0.859, 0.302))
@@ -52,7 +52,7 @@ func _draw():
 func _on_area_2d_input_event(viewport, event, shape_idx): # move to unitmanager later and flesh out
 	if event is InputEventMouseButton and event.pressed:
 		emit_signal("unit_selected", self)
-		
+	
 func move_along_path(path: Array[Vector2i]) -> void:
 	is_moving = true
 	for i in range(1, path.size()):
@@ -74,14 +74,13 @@ func spend_movement(cost: int) -> void:
 	print("Movement taken, new AP:", action_points)
 
 func execute_attack(target: Unit):
-	# var hit_chance = (just for reference; need to research typical implementations of this)
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
 	print(self.name, " attacks ", target.name)
 	
 	self.action_points -= 1
 	target.take_damage(roll_damage())
 	unit_manager.deselect_active_unit()
-	
+
 func get_attack_range():
 	if weapon == null:
 		return unarmed_range
@@ -91,10 +90,14 @@ func roll_damage():
 	if weapon == null:
 		return unarmed_damage
 	return randi_range(weapon.damage_min, weapon.damage_max)
-	
+
 #func get_hit_chance(unit: Unit, target: Unit):
 	#var hit_chance = 100 + weapon.accuracy_bonus - target.defense - cover_penalty - range_penalty
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> eafdf40 (Removed outdated comment and added LOS to player targeting)
 func take_damage(amount: int):
 	current_hp -= amount
 	if current_hp <= 0:
@@ -105,4 +108,3 @@ func die():
 	emit_signal ("unit_died", self)
 	print("Unit died.")
 	queue_free()
-	

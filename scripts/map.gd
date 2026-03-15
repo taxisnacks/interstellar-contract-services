@@ -1,6 +1,7 @@
 extends Node2D
 @onready var tilemap: TileMapLayer = $TileMapLayer
 @onready var unit_manager = get_tree().get_first_node_in_group("unit_manager")
+@onready var turn_manager = get_tree().get_first_node_in_group("turn_manager")
 
 var debug_start_tile: Vector2i = Vector2i(-1, -1)
 var debug_end_tile: Vector2i = Vector2i(-1, -1)
@@ -220,7 +221,7 @@ func _unhandled_input(event):
 			return
 
 		# ATTACK
-		if attack_target:
+		if attack_target && turn_manager.can_attack(unit, attack_target):
 			unit.execute_attack(attack_target)
 			clear_action_state()
 			return
