@@ -223,6 +223,7 @@ func _unhandled_input(event):
 		# ATTACK
 		if attack_target && turn_manager.can_attack(unit, attack_target):
 			unit.execute_attack(attack_target)
+			unit_manager.deselect_active_unit()
 			clear_action_state()
 			return
 

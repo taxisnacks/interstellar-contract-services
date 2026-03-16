@@ -84,7 +84,6 @@ func execute_attack(target: Unit):
 		target.take_damage(roll_damage())
 	else:
 		print(self.name, "'s attack missed")
-	unit_manager.deselect_active_unit()
 
 func get_attack_range():
 	if weapon == null:
