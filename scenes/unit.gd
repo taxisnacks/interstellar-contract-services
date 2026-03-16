@@ -7,9 +7,11 @@ signal unit_died(unit)
 enum faction { PLAYER, ENEMY }
 
 @export var max_hp := 10
+@export var aim := 65
 @export var defense := 5
 @export var move_range := 6
 @export var max_action_points := 2
+@export var unit_data: UnitResource
 @export var unit_faction: faction = faction.PLAYER
 @export var tile_pos: Vector2i
 @export var unit_sprite: Texture2D
@@ -25,6 +27,9 @@ var is_moving := false
 
 func _ready():
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
+	_apply_unit_data()
+	current_hp = max_hp
+	action_points = max_action_points
 	$Sprite2D.texture = unit_sprite
 	if unit_manager:
 		unit_manager.register_unit(self)
@@ -76,14 +81,30 @@ func spend_movement(cost: int) -> void:
 
 func execute_attack(target: Unit):
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
-	var hit_random = randf_range(0, 100)
 	
 	print(self.name, " attacks ", target.name)
 	self.action_points -= 1
-	if hit_random <= get_hit_chance(self, target):
+	if roll_hit(target):
 		target.take_damage(roll_damage())
 	else:
 		print(self.name, "'s attack missed")
+	
+	if unit_manager and unit_manager.active_unit == self:
+		unit_manager.deselect_active_unit()
+
+
+func can_attack_target(target: Unit) -> bool:
+	if target == null or not target.is_alive:
+		return false
+
+	if tile_pos.distance_to(target.tile_pos) > get_attack_range():
+		return false
+
+	var map = get_tree().get_first_node_in_group("map")
+	if map == null:
+		return false
+
+	return map.has_line_of_sight(tile_pos, target.tile_pos)
 
 func get_attack_range():
 	if weapon == null:
@@ -95,17 +116,46 @@ func roll_damage():
 		return unarmed_damage
 	return randi_range(weapon.damage_min, weapon.damage_max)
 
-func get_hit_chance(unit: Unit, target: Unit):
-	var hit_chance = 100 + weapon.accuracy_bonus - target.defense - (get_range_penalty(unit, target) * 2)
+func get_hit_chance(target: Unit) -> int:
+	if target == null:
+		return 0
+
+	var weapon_accuracy_bonus := 0
+	if weapon != null:
+		weapon_accuracy_bonus = weapon.accuracy_bonus
+
+	var map = get_tree().get_first_node_in_group("map")
+	var cover_penalty := 0
+	if map != null:
+		cover_penalty = map.get_tile_cover(target.tile_pos) * 15
+
+	var hit_chance = aim + weapon_accuracy_bonus - target.defense - cover_penalty - get_range_penalty(target)
 	if hit_chance < 1:
 		hit_chance = 1
 	if hit_chance > 99:
 		hit_chance = 99
 	return hit_chance
 	
-func get_range_penalty(unit: Unit, target: Unit):
-	var range_penalty = unit.tile_pos.distance_to(target.tile_pos)
-	return range_penalty
+func get_range_penalty(target: Unit) -> int:
+	var distance: int = int(tile_pos.distance_to(target.tile_pos))
+	return max(0, (distance - 1) * 5)
+
+
+func roll_hit(target: Unit) -> bool:
+	var hit_roll: int = randi_range(1, 100)
+	var chance: int = get_hit_chance(target)
+	print("Hit roll ", hit_roll, " vs chance ", chance)
+	return hit_roll <= chance
+
+
+func _apply_unit_data() -> void:
+	if unit_data == null:
+		return
+
+	max_hp = unit_data.max_hp
+	aim = unit_data.aim
+	defense = unit_data.defense
+	move_range = unit_data.movement
 
 func take_damage(amount: int):
 	current_hp -= amount

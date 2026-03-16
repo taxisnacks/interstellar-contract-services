@@ -127,6 +127,13 @@ func find_path(from_tile: Vector2i, to_tile: Vector2i, mover: Unit) -> Array[Vec
 	clear_unit_obstacles()
 	return path
 
+func get_tile_cover(tile: Vector2i) -> int:
+	var tile_data = tilemap.get_cell_tile_data(tile)
+	if tile_data == null:
+		return 0
+	return int(tile_data.get_custom_data("cover"))
+
+
 func get_reachable_tiles(from_tile: Vector2i, max_cost: int, mover: Unit) -> Array[Vector2i]:
 	apply_unit_obstacles(mover)
 
@@ -198,7 +205,7 @@ func _process(_delta):
 	# ATTACK PREVIEW
 	if hover_target != null \
 	and hover_target.unit_faction != unit.unit_faction \
-	and unit.tile_pos.distance_to(hover_target.tile_pos) <= unit.get_attack_range():
+	and unit.can_attack_target(hover_target):
 		print("Target found successfully")
 		attack_target = hover_target
 		
