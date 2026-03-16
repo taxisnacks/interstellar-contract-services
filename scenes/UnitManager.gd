@@ -45,7 +45,7 @@ func _on_unit_selected(unit) -> void:
 	
 	if map:
 		var tile = map.world_to_tile(unit.global_position)
-		map.reachable_tiles = map.get_reachable_tiles(tile, unit.move_range, unit)
+		map.reachable_tiles = map.get_reachable_tiles(tile, unit.unit_data.move_range, unit)
 		map.queue_redraw()
 	else:
 		print("ERROR: MAP NOT FOUND")

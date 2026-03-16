@@ -14,8 +14,8 @@ enum faction { PLAYER, ENEMY }
 @export var unarmed_range := 1
 @export var unarmed_damage := 1
 
-var current_hp := unit_data.max_hp
-var action_points := unit_data.max_action_points
+var current_hp := 1
+var action_points := 1
 var is_alive := true
 var is_selected := false
 var is_moving := false
@@ -29,7 +29,7 @@ func _ready():
 	if unit_manager:
 		unit_manager.register_unit(self)
 
-	# Wait one frame for map to exist
+	# Wait one frame for map to exist 
 	await get_tree().process_frame
 	var map = get_tree().get_first_node_in_group("map")
 	if map != null:
@@ -78,6 +78,7 @@ func execute_attack(target: Unit):
 	print(self.name, " attacks ", target.name)
 	self.action_points -= 1
 	if roll_hit(target):
+		print(self.name, " hits target", target.name)
 		target.take_damage(roll_damage())
 	else:
 		print(self.name, "'s attack missed")
