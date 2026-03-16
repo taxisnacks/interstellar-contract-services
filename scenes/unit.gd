@@ -6,11 +6,6 @@ signal unit_died(unit)
 
 enum faction { PLAYER, ENEMY }
 
-@export var max_hp := 10
-@export var aim := 65
-@export var defense := 5
-@export var move_range := 6
-@export var max_action_points := 2
 @export var unit_data: UnitResource
 @export var unit_faction: faction = faction.PLAYER
 @export var tile_pos: Vector2i
@@ -19,17 +14,17 @@ enum faction { PLAYER, ENEMY }
 @export var unarmed_range := 1
 @export var unarmed_damage := 1
 
-var current_hp := max_hp
-var action_points := max_action_points
+var current_hp := unit_data.max_hp
+var action_points := unit_data.max_action_points
 var is_alive := true
 var is_selected := false
 var is_moving := false
 
 func _ready():
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
-	_apply_unit_data()
-	current_hp = max_hp
-	action_points = max_action_points
+
+	current_hp = unit_data.max_hp
+	action_points = unit_data.max_action_points
 	$Sprite2D.texture = unit_sprite
 	if unit_manager:
 		unit_manager.register_unit(self)
@@ -41,7 +36,7 @@ func _ready():
 		tile_pos = map.world_to_tile(global_position)
 
 func start_turn():
-	action_points = max_action_points
+	action_points = unit_data.max_action_points
 	print(name, " starts turn")
 
 func end_turn():
@@ -92,7 +87,6 @@ func execute_attack(target: Unit):
 	if unit_manager and unit_manager.active_unit == self:
 		unit_manager.deselect_active_unit()
 
-
 func can_attack_target(target: Unit) -> bool:
 	if target == null or not target.is_alive:
 		return false
@@ -129,17 +123,16 @@ func get_hit_chance(target: Unit) -> int:
 	if map != null:
 		cover_penalty = map.get_tile_cover(target.tile_pos) * 15
 
-	var hit_chance = aim + weapon_accuracy_bonus - target.defense - cover_penalty - get_range_penalty(target)
+	var hit_chance = unit_data.aim + weapon_accuracy_bonus - target.unit_data.defense - cover_penalty - get_range_penalty(target)
 	if hit_chance < 1:
 		hit_chance = 1
 	if hit_chance > 99:
 		hit_chance = 99
 	return hit_chance
-	
+
 func get_range_penalty(target: Unit) -> int:
 	var distance: int = int(tile_pos.distance_to(target.tile_pos))
 	return max(0, (distance - 1) * 5)
-
 
 func roll_hit(target: Unit) -> bool:
 	var hit_roll: int = randi_range(1, 100)
@@ -147,21 +140,11 @@ func roll_hit(target: Unit) -> bool:
 	print("Hit roll ", hit_roll, " vs chance ", chance)
 	return hit_roll <= chance
 
-
-func _apply_unit_data() -> void:
-	if unit_data == null:
-		return
-
-	max_hp = unit_data.max_hp
-	aim = unit_data.aim
-	defense = unit_data.defense
-	move_range = unit_data.movement
-
 func take_damage(amount: int):
 	current_hp -= amount
 	if current_hp <= 0:
 		die()
-		
+
 func die():
 	is_alive = false
 	emit_signal ("unit_died", self)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://upc8ed66t3qt"]
+[gd_scene load_steps=14 format=4 uid="uid://upc8ed66t3qt"]
 
 [ext_resource type="Script" uid="uid://bkq67ka6v5gql" path="res://scripts/map.gd" id="1_xkm8s"]
 [ext_resource type="Texture2D" uid="uid://di0x2ldluyl1" path="res://data/sprites/floor-debug.png" id="2_tm3qm"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://byo35car1jkhm" path="res://data/sprites/debug-unit-friendly.png" id="5_41ykk"]
 [ext_resource type="Texture2D" uid="uid://c2waex3cb7gku" path="res://data/sprites/debug-unit-enemy.png" id="6_inly4"]
 [ext_resource type="Resource" uid="uid://dmg5g45oh2s58" path="res://data/weapons/tier1_rifle.tres" id="7_7ctrk"]
+[ext_resource type="Resource" uid="uid://oy4tb15urr7g" path="res://data/units/Rookie.tres" id="8_ii6k2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_41ykk"]
 texture = ExtResource("2_tm3qm")
@@ -48,12 +49,14 @@ tile_set = SubResource("TileSet_7ctrk")
 [node name="Unit1" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
 position = Vector2(88, 136)
+unit_data = ExtResource("8_ii6k2")
 unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
-[node name="Enemy3" parent="." instance=ExtResource("4_tm3qm")]
+[node name="Enemy2" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
 position = Vector2(168, 88)
+unit_data = ExtResource("8_ii6k2")
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
 weapon = ExtResource("7_7ctrk")
@@ -61,16 +64,19 @@ weapon = ExtResource("7_7ctrk")
 [node name="Unit3" parent="." instance=ExtResource("4_tm3qm")]
 z_index = 10
 position = Vector2(168, 168)
+unit_data = ExtResource("8_ii6k2")
 unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
 [node name="Unit4" parent="." instance=ExtResource("4_tm3qm")]
 position = Vector2(120, 120)
+unit_data = ExtResource("8_ii6k2")
 unit_sprite = ExtResource("5_41ykk")
 weapon = ExtResource("7_7ctrk")
 
-[node name="Enemy2" parent="." instance=ExtResource("4_tm3qm")]
+[node name="Enemy1" parent="." instance=ExtResource("4_tm3qm")]
 position = Vector2(89, 88)
+unit_data = ExtResource("8_ii6k2")
 unit_faction = 1
 unit_sprite = ExtResource("6_inly4")
 weapon = ExtResource("7_7ctrk")

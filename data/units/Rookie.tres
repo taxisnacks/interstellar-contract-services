@@ -6,3 +6,4 @@
 script = ExtResource("1_by6wc")
 display_name = "Rookie"
 max_hp = 15
+defense = 5
