@@ -7,6 +7,7 @@ signal unit_died(unit)
 enum faction { PLAYER, ENEMY }
 
 @export var max_hp := 10
+@export var defense := 5
 @export var move_range := 6
 @export var max_action_points := 2
 @export var unit_faction: faction = faction.PLAYER
@@ -75,10 +76,14 @@ func spend_movement(cost: int) -> void:
 
 func execute_attack(target: Unit):
 	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
-	print(self.name, " attacks ", target.name)
+	var hit_random = randf_range(0, 100)
 	
+	print(self.name, " attacks ", target.name)
 	self.action_points -= 1
-	target.take_damage(roll_damage())
+	if hit_random <= get_hit_chance(self, target):
+		target.take_damage(roll_damage())
+	else:
+		print(self.name, "'s attack missed")
 	unit_manager.deselect_active_unit()
 
 func get_attack_range():
@@ -91,8 +96,17 @@ func roll_damage():
 		return unarmed_damage
 	return randi_range(weapon.damage_min, weapon.damage_max)
 
-#func get_hit_chance(unit: Unit, target: Unit):
-	#var hit_chance = 100 + weapon.accuracy_bonus - target.defense - cover_penalty - range_penalty
+func get_hit_chance(unit: Unit, target: Unit):
+	var hit_chance = 100 + weapon.accuracy_bonus - target.defense - (get_range_penalty(unit, target) * 2)
+	if hit_chance < 1:
+		hit_chance = 1
+	if hit_chance > 99:
+		hit_chance = 99
+	return hit_chance
+	
+func get_range_penalty(unit: Unit, target: Unit):
+	var range_penalty = unit.tile_pos.distance_to(target.tile_pos)
+	return range_penalty
 
 func take_damage(amount: int):
 	current_hp -= amount
