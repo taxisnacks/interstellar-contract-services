@@ -75,17 +75,13 @@ func spend_movement(cost: int) -> void:
 	print("Movement taken, new AP:", action_points)
 
 func execute_attack(target: Unit):
-	var unit_manager = get_tree().get_first_node_in_group("unit_manager")
-	
 	print(self.name, " attacks ", target.name)
 	self.action_points -= 1
 	if roll_hit(target):
 		target.take_damage(roll_damage())
 	else:
 		print(self.name, "'s attack missed")
-	
-	if unit_manager and unit_manager.active_unit == self:
-		unit_manager.deselect_active_unit()
+
 
 func can_attack_target(target: Unit) -> bool:
 	if target == null or not target.is_alive:
@@ -121,7 +117,7 @@ func get_hit_chance(target: Unit) -> int:
 	var map = get_tree().get_first_node_in_group("map")
 	var cover_penalty := 0
 	if map != null:
-		cover_penalty = map.get_tile_cover(target.tile_pos) * 15
+		cover_penalty = map.get_tile_cover(target.tile_pos) * 5
 
 	var hit_chance = unit_data.aim + weapon_accuracy_bonus - target.unit_data.defense - cover_penalty - get_range_penalty(target)
 	if hit_chance < 1:
